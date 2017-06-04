@@ -23,7 +23,8 @@ int main(int argc, char **argv)
 
   for(int i = 1; i < argc; i++)
   {
-    createTerm(argv[i], nextTerm);
+    error = createTerm(argv[i], nextTerm);
+    assert(error==TERM_OK)
     nextTerm++;
   }
 

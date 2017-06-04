@@ -9,10 +9,10 @@
 #define KEY_COUNT (1024*1024)
 #define KEY_MAX_LENGTH (256)
 
-TermPtr* createTerm(const char *str, TermPtr *terms)
+int createTerm(const char *str, TermPtr *terms)
 {
   if(str == NULL || terms == NULL || !isdigit(*str))
-    return NULL;
+    return TERM_ERR;
 
   TermPtr newTermPtr;
   int count = 0;
@@ -44,7 +44,7 @@ TermPtr* createTerm(const char *str, TermPtr *terms)
 
   *terms = newTermPtr;
 
-  return terms;
+  return TERM_OK;
 }
 
 int printTerm(const char *key, long value, bool isFirst)
