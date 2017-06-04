@@ -7,7 +7,6 @@
 #include "polynomial.h"
 #include "hashmap.h"
 
-#define KEY_COUNT (1024*1024)
 #define KEY_MAX_LENGTH (256)
 
 int parse_terms(int argc, char **argv, Term_ptr* terms){

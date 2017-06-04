@@ -1,1 +1,0 @@
-create list of term structs, then use hash table to combine like terms, and then print contents of table (<value><key>, e.g. 25x^30)
