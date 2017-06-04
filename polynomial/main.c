@@ -9,8 +9,9 @@ int main(int argc, char **argv)
   Term_ptr terms[num_terms];
   map_t my_map;
 
-  if(argc <= 1)
-    exit(EXIT_FAILURE);
+  if(argc < 2) {
+    DIE("usage: %s, invalid arguments", argv[0]);
+  }
 
   parse_terms(argc, argv, terms);
   my_map = hashmap_new();
@@ -19,6 +20,6 @@ int main(int argc, char **argv)
 
   terms_free(terms, num_terms);
   hashmap_free(mymap);
-  
+
   exit(EXIT_SUCCESS);
 }
