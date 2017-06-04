@@ -59,6 +59,7 @@ int create_term(const char *str, Term_ptr term){
     coeff_str[count] = '\0';
 
     new_term_ptr->coefficient = (long) ((long) atol(coeff_str)) * sign;
+    sign = 1;
   }
 
   if(isalpha(*tmp)) {
@@ -67,7 +68,7 @@ int create_term(const char *str, Term_ptr term){
     return TERM_ERR;
   }
 
-  if(*tmp == '-' && sign == 1) {
+  if(*tmp == '-') {
     sign = -1;
     tmp++;
   }
