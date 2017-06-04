@@ -30,35 +30,56 @@ int parse_terms(int argc, char **argv, Term_ptr* terms){
 }
 
 int create_term(const char *str, Term_ptr term){
-  if(str == NULL || term == NULL || !isdigit(*str))
+  if(str == NULL || term == NULL)
     return TERM_ERR;
 
-  Term_ptr new_term_ptr;
   int count = 0;
+  int sign = 1;
   const char *tmp = str;
+  Term_ptr new_term_ptr;
 
   new_term_ptr = (Term_ptr) malloc(sizeof(Term));
 
   if(isalpha(*tmp)){
     new_term_ptr->coefficient = 1;
-  }else{
-    while(isdigit(*tmp)){
+  } else {
+    if(*tmp == '-') {
+      sign = -1;
       tmp++;
+    }
+
+    if(!isdigit(*tmp)) {
+      return TERM_ERR;
+    }
+
+    while(isdigit(*tmp)){
       count++;
+      tmp++;
     }
 
     char coeff_str[count+1];
     strncpy(coeff_str, str, count);
     coeff_str[count] = '\0';
 
-    new_term_ptr->coefficient = (long) atol(coeff_str);
+    new_term_ptr->coefficient = (long) ((long) atol(coeff_str)) * sign;
   }
 
-  new_term_ptr->base = *tmp;
-  tmp++;
+  if(isalpha(*tmp)) {
+    new_term_ptr->base = *(tmp++);
+  } else {
+    return TERM_ERR;
+  }
 
-  new_term_ptr->exponent = (long) atol(tmp);
+  if(*tmp == '-' && sign == 1) {
+    sign = -1;
+    tmp++;
+  }
 
+  if(!isdigit(*tmp)) {
+    return TERM_ERR;
+  }
+
+  new_term_ptr->exponent = (long) ((long) atol(tmp)) * sign;
   term = new_term_ptr;
 
   return TERM_OK;
@@ -77,7 +98,7 @@ int combine_terms(Term_ptr *terms, int num_terms, map_t my_map){
     assert(status == MAP_OK);
   }
 
-  return TERM_SUCC;
+  return TERM_OK;
 }
 
 int print_term(const char *key, long value, bool is_first){
