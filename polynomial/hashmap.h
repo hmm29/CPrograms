@@ -21,10 +21,10 @@
 typedef void *any_t;
 
 /*
- * PFany is a pointer to a function that can take two any_t arguments
- * and return an integer. Returns status code..
+ * PFany is a pointer to a function that can take three any_t arguments
+ * and return an integer. Returns status code.
  */
-typedef int (*PFany)(any_t, any_t);
+typedef int (PFany)(const char *, long, int);
 
 /*
  * map_t is a pointer to an internally maintained data structure.
@@ -78,4 +78,4 @@ extern void hashmap_free(map_t in);
  */
 extern int hashmap_length(map_t in);
 
-#endif __HASHMAP_H__
+#endif

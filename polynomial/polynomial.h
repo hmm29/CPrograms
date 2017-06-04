@@ -13,7 +13,7 @@ typedef struct term {
 
 int parse_terms(int argc, char **argv, Term_ptr *terms);
 int create_term(const char *str, Term_ptr term);
-int combine_terms(Term_ptr *terms, int num_terms, map_t my_map)
+int combine_terms(Term_ptr *terms, int num_terms, map_t my_map);
 int print_term(const char *key, long value, bool is_first);
 void terms_free(Term_ptr *terms, int num_terms);
 

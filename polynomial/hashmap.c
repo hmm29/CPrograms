@@ -1,12 +1,12 @@
 /*
  * Generic map implementation.
  */
-#include "hashmap.h"
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+
+#include "hashmap.h"
 
 #define INITIAL_SIZE (256)
 #define MAX_CHAIN_LENGTH (8)
@@ -338,7 +338,7 @@ int hashmap_iterate(map_t in, PFany f, any_t item) {
 	for(i = 0; i< m->table_size; i++)
 		if(m->data[i].in_use != 0) {
       char *key = m->data[i].key;
-			any_t data = (any_t) (m->data[i].data);
+			long data = (long) (m->data[i].data);
 			int status = f(key, data, is_first);
 			if (status != MAP_OK) {
 				return status;

@@ -9,8 +9,8 @@ CFLAGS=-std=c99 -g3 -Wall -pedantic
 all:	polynomial
 
 # Rule to build executable from object files
-polynomial: polynomial.o hashmap.o
-	${CC} ${CFLAGS} -o polynomial polynomial.o hashmap.o
+polynomial: main.o polynomial.o hashmap.o
+	${CC} ${CFLAGS} -o polynomial main.o polynomial.o hashmap.o
 
 # Rule to generate object files
 %.o: %.c

@@ -1,12 +1,12 @@
-#include "polynomial.h"
-#include "hashmap.h"
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
 #include <assert.h>
+
+#include "hashmap.h"
+#include "polynomial.h"
 
 #define KEY_MAX_LENGTH (256)
 

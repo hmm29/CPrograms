@@ -1,7 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "polynomial.h"
+#include <stdbool.h>
+
 #include "hashmap.h"
+#include "polynomial.h"
 
 int main(int argc, char **argv){
   int status;
@@ -15,7 +17,7 @@ int main(int argc, char **argv){
 
   status = parse_terms(argc, argv, terms);
   if(status == TERM_ERR){
-    DIE("Usage: %s <coefficient><base><exponent> [...]\n", argv[0]);
+    DIE("Usage: ./polynomial <coefficient><base><exponent> [...]\n");
   }
 
   my_map = hashmap_new();
@@ -23,7 +25,7 @@ int main(int argc, char **argv){
   hashmap_iterate(my_map, print_term, NULL);
 
   terms_free(terms, num_terms);
-  hashmap_free(mymap);
+  hashmap_free(my_map);
 
   exit(EXIT_SUCCESS);
 }
