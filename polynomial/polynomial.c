@@ -99,7 +99,7 @@ int print_term(const char *key, long value, bool is_first)
   return MAP_OK;
 }
 
-void destroy_terms(Term_ptr *terms, int length)
+void terms_free(Term_ptr *terms, int length)
 {
   for(int i = 0; i < length; i++)
   {

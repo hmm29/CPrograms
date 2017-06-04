@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <assert.h>
 #include "polynomial.h"
 #include "hashmap.h"
 
@@ -17,7 +16,9 @@ int main(int argc, char **argv)
   my_map = hashmap_new();
   combine_terms(terms, num_terms, mymap);
   hashmap_iterate(mymap, print_term, NULL);
-  destroy_terms(terms, num_terms);
+
+  terms_free(terms, num_terms);
   hashmap_free(mymap);
+  
   exit(EXIT_SUCCESS);
 }
