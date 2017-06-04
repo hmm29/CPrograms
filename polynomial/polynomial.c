@@ -3,26 +3,44 @@
 #include <string.h>
 #include <stdbool.h>
 #include <ctype.h>
+#include <assert.h>
 #include "polynomial.h"
 #include "hashmap.h"
 
 #define KEY_COUNT (1024*1024)
 #define KEY_MAX_LENGTH (256)
 
-int createTerm(const char *str, TermPtr *terms)
+int parse_terms(int argc, char **argv, Term_ptr* terms)
 {
-  if(str == NULL || terms == NULL || !isdigit(*str))
+  if(terms == NULL)
     return TERM_ERR;
 
-  TermPtr newTermPtr;
+  Term_ptr *remaining_terms = terms;
+
+  for(int i = 1; i < argc; i++)
+  {
+    error = create_term(argv[i], *remaining_terms);
+    assert(error==TERM_OK);
+    remaining_terms++;
+  }
+
+  return TERM_OK;
+}
+
+int create_term(const char *str, Term_ptr term)
+{
+  if(str == NULL || term == NULL || !isdigit(*str))
+    return TERM_ERR;
+
+  Term_ptr new_term_ptr;
   int count = 0;
   const char *tmp = str;
 
-  newTermPtr = (TermPtr) malloc(sizeof(Term));
+  new_term_ptr = (Term_ptr) malloc(sizeof(Term));
 
   if(isalpha(*tmp))
   {
-    newTermPtr->coefficient = 1;
+    new_term_ptr->coefficient = 1;
   } else {
     while(isdigit(*tmp))
     {
@@ -34,27 +52,45 @@ int createTerm(const char *str, TermPtr *terms)
     strncpy(coeffStr, str, count);
     coeffStr[count] = '\0';
 
-    newTermPtr->coefficient = (long) atol(coeffStr);
+    new_term_ptr->coefficient = (long) atol(coeffStr);
   }
 
-  newTermPtr->base = *tmp;
+  new_term_ptr->base = *tmp;
   tmp++;
 
-  newTermPtr->exponent = (long) atol(tmp);
+  new_term_ptr->exponent = (long) atol(tmp);
 
-  *terms = newTermPtr;
+  term = new_term_ptr;
 
   return TERM_OK;
 }
 
-int printTerm(const char *key, long value, bool isFirst)
+int combine_terms(Term_ptr *terms, int num_terms, map_t mymap)
+{
+  int error;
+  long value;
+  char key_string[KEY_MAX_LENGTH];
+  Term_ptr curr_term_ptr;
+
+  for(int i = 0; i < num_terms; i++)
+  {
+    curr_term_ptr = terms[i];
+    snprintf(key, KEY_MAX_LENGTH, "%c^%ld", curr_term_ptr->base, curr_term_ptr->exponent);
+    error = hashmap_put(mymap, key_string, (long *) &value);
+    assert(error==MAP_OK);
+  }
+
+  return TERM_SUCC;
+}
+
+int print_term(const char *key, long value, bool is_first)
 {
   if(key == NULL)
   {
     return MAP_MISSING;
   }
 
-  if(value >= 0 && !isFirst)
+  if(value >= 0 && !is_first)
   {
     printf("+");
   }
@@ -63,7 +99,7 @@ int printTerm(const char *key, long value, bool isFirst)
   return MAP_OK;
 }
 
-void destroyTerms(TermPtr *terms, int length)
+void destroy_terms(Term_ptr *terms, int length)
 {
   for(int i = 0; i < length; i++)
   {

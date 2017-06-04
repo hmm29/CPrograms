@@ -325,7 +325,7 @@ int hashmap_get(map_t in, char* key, any_t *arg){
  */
 int hashmap_iterate(map_t in, PFany f, any_t item) {
 	int i;
-  bool isFirst = true;
+  bool is_first = true;
 
 	/* Cast the hashmap */
 	hashmap_map* m = (hashmap_map*) in;
@@ -339,13 +339,13 @@ int hashmap_iterate(map_t in, PFany f, any_t item) {
 		if(m->data[i].in_use != 0) {
       char *key = m->data[i].key;
 			any_t data = (any_t) (m->data[i].data);
-			int status = f(key, data, isFirst);
+			int status = f(key, data, is_first);
 			if (status != MAP_OK) {
 				return status;
 			}
 
-      if(isFirst) {
-        isFirst = false;
+      if(is_first) {
+        is_first = false;
       }
 		}
 

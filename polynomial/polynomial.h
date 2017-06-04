@@ -9,10 +9,12 @@ typedef struct term {
   long coefficient;
   char base;
   long exponent;
-} Term, *TermPtr;
+} Term, *Term_ptr;
 
-int createTerm(const char *str, TermPtr *terms);
-int printTerm(const char *key, long value, bool isFirst);
-void destroyTerms(TermPtr *terms, int length);
+int parse_terms(int argc, char **argv, Term_ptr *terms);
+int createTerm(const char *str, Term_ptr term);
+int combineTerms(Term_ptr *terms, int num_terms, map_t my_map)
+int printTerm(const char *key, long value, bool is_first);
+void destroyTerms(Term_ptr *terms, int num_terms);
 
 #endif
