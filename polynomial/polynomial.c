@@ -93,7 +93,7 @@ int combine_terms(Term_ptr *terms, int num_terms, map_t my_map){
 
   for(int i = 0; i < num_terms; i++){
     curr_term_ptr = terms[i];
-    snprintf(key, KEY_MAX_LENGTH, "%c^%ld", curr_term_ptr->base, curr_term_ptr->exponent);
+    snprintf(key_string, KEY_MAX_LENGTH, "%c^%ld", curr_term_ptr->base, curr_term_ptr->exponent);
     status = hashmap_put(my_map, key_string, (long *) &value);
     assert(status == MAP_OK);
   }
