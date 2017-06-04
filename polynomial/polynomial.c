@@ -20,9 +20,6 @@ int parse_terms(int argc, char **argv, Term_ptr* terms){
   for(int i = 1; i < argc; i++){
     status = create_term(argv[i], *remaining_terms);
     assert(status == TERM_OK);
-    if(status == TERM_ERR) {
-      return TERM_ERR;
-    }
     remaining_terms++;
   }
 
