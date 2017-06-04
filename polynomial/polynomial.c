@@ -14,12 +14,16 @@ int parse_terms(int argc, char **argv, Term_ptr* terms){
   if(terms == NULL)
     return TERM_ERR;
 
+  int status;
   Term_ptr *remaining_terms = terms;
 
   for(int i = 1; i < argc; i++){
-    error = create_term(argv[i], *remaining_terms);
-    assert(error==TERM_OK);
+    status = create_term(argv[i], *remaining_terms);
+    assert(status == TERM_OK);
     remaining_terms++;
+    if(status == TERM_ERR) {
+      return TERM_ERR;
+    }
   }
 
   return TERM_OK;
@@ -60,8 +64,8 @@ int create_term(const char *str, Term_ptr term){
   return TERM_OK;
 }
 
-int combine_terms(Term_ptr *terms, int num_terms, map_t mymap){
-  int error;
+int combine_terms(Term_ptr *terms, int num_terms, map_t my_map){
+  int status;
   long value;
   char key_string[KEY_MAX_LENGTH];
   Term_ptr curr_term_ptr;
@@ -69,8 +73,8 @@ int combine_terms(Term_ptr *terms, int num_terms, map_t mymap){
   for(int i = 0; i < num_terms; i++){
     curr_term_ptr = terms[i];
     snprintf(key, KEY_MAX_LENGTH, "%c^%ld", curr_term_ptr->base, curr_term_ptr->exponent);
-    error = hashmap_put(mymap, key_string, (long *) &value);
-    assert(error==MAP_OK);
+    status = hashmap_put(my_map, key_string, (long *) &value);
+    assert(status == MAP_OK);
   }
 
   return TERM_SUCC;

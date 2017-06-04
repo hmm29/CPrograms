@@ -3,9 +3,9 @@
 
 #define TERM_ERR -1  /* No term created */
 #define TERM_OK 0 	/* Term successfully created */
-#define DIE(msg) exit (fprintf (stderr, "%s\n", msg));
+#define DIE(msg) exit (fprintf (stderr, "%s\n", msg));  /* Print message to stderr and exit */
 
-typedef struct term{
+typedef struct term {
   long coefficient;
   char base;
   long exponent;

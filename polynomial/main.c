@@ -3,8 +3,8 @@
 #include "polynomial.h"
 #include "hashmap.h"
 
-int main(int argc, char **argv)
-{
+int main(int argc, char **argv){
+  int status;
   int num_terms = argc-1;
   Term_ptr terms[num_terms];
   map_t my_map;
@@ -13,10 +13,14 @@ int main(int argc, char **argv)
     exit(EXIT_SUCCESS);
   }
 
-  parse_terms(argc, argv, terms);
+  status = parse_terms(argc, argv, terms);
+  if(status == TERM_ERR){
+    DIE("Usage: %s <coefficient><base><exponent> [...]\n", argv[0]);
+  }
+
   my_map = hashmap_new();
-  combine_terms(terms, num_terms, mymap);
-  hashmap_iterate(mymap, print_term, NULL);
+  combine_terms(terms, num_terms, my_map);
+  hashmap_iterate(my_map, print_term, NULL);
 
   terms_free(terms, num_terms);
   hashmap_free(mymap);
