@@ -10,7 +10,7 @@ int main(int argc, char **argv)
   map_t my_map;
 
   if(argc < 2) {
-    DIE("usage: %s, invalid arguments", argv[0]);
+    exit(EXIT_SUCCESS);
   }
 
   parse_terms(argc, argv, terms);
