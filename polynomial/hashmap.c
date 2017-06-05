@@ -447,13 +447,12 @@ int hashmap_length(map_t in){
 }
 
 int hashmap_key_strcmp(char *a, char *b){
-    while (*a && *b && *a == *b) { ++a; ++b; }
+	while (*a && *b && *a == *b) { ++a; ++b; }
 
-		if(strlen(a) == strlen(b)) {
-			return (int) *a - *b;
-		}
+	if(strlen(a) == strlen(b))
+		return (int) *a - *b;
 
-		return (int) strlen(a) - strlen(b);
+	return (int) strlen(a) - strlen(b);
 }
 
 void swap(any_t xp, any_t yp){
