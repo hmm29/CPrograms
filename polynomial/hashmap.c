@@ -348,7 +348,7 @@ int hashmap_sort(map_t in){
 	for(i = 0; i < m->table_size-1; i++){
 		min_idx = i;
 		for(j = i+1; j < m->table_size; j++)
-			if(m->data[j].in_use && m->data[min_idx].in_use && strcmp(m->data[j].key, m->data[min_idx].key) < 0) {
+			if(m->data[j].in_use && m->data[min_idx].in_use && hashmap_key_strcmp(m->data[j].key, m->data[min_idx].key) < 0) {
 				min_idx = j;
 			}
 
@@ -444,6 +444,16 @@ int hashmap_length(map_t in){
 	hashmap_map* m = (hashmap_map *) in;
 	if(m != NULL) return m->size;
 	else return 0;
+}
+
+int hashmap_key_strcmp(char *a, char *b){
+    while (*a && *b && *a == *b) { ++a; ++b; }
+
+		if(strlen(a) == strlen(b)) {
+			return (int) *a - *b;
+		}
+
+		return (int) strlen(a) - strlen(b);
 }
 
 void swap(any_t xp, any_t yp){

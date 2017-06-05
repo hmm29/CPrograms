@@ -108,7 +108,12 @@ int print_term(const char *key, any_t value, bool is_first){
     printf("+");
   }
 
-  printf("%d%s", ((data_struct_t *)value)->number, key);
+  if(((data_struct_t *)value)->number != 1) {
+    printf("%d%s", ((data_struct_t *)value)->number, key);
+  } else {
+    printf("%s", key);
+  }
+
   return MAP_OK;
 }
 

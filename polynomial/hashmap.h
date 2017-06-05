@@ -84,6 +84,11 @@ extern void hashmap_free(map_t in);
 extern int hashmap_length(map_t in);
 
 /*
+ * Compare hashmap element keys (e.g. a^67 and a^68).
+ */
+extern int hashmap_key_strcmp(char *a, char *b);
+
+/*
  * Simple swap function to swap hashmap elements.
  */
 extern void swap(any_t xp, any_t yp);
