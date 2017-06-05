@@ -282,10 +282,16 @@ int hashmap_put(map_t in, char* key, any_t value){
 		index = hashmap_hash(in, key);
 	}
 
-	/* Set the data */
-	m->data[index].data = value;
-	m->data[index].key = key;
-	m->data[index].in_use = 1;
+	/* Add coefficient values for like terms */
+	if(m->data[index].in_use == 1) {
+		((data_struct_t *) m->data[index].data)->number += ((data_struct_t *)value)->number;
+	} else {
+		/* Set the data */
+		m->data[index].data = value;
+		m->data[index].key = key;
+		m->data[index].in_use = 1;
+	}
+
 	m->size++;
 
 	return MAP_OK;
