@@ -5,11 +5,13 @@
 #define TERM_OK 0 	/* Term successfully created */
 #define DIE(msg) exit (fprintf (stderr, "%s\n", msg));  /* Print message to stderr and exit */
 #define KEY_MAX_LENGTH (256)
+#define VARIABLE_MAX_NUM (256)
 
 typedef struct term {
   long coefficient;
-  char base;
-  long exponent;
+  char base[VARIABLE_MAX_NUM];
+  long exponent[VARIABLE_MAX_NUM];
+  int num_variables;
 } Term, *Term_ptr;
 
 typedef struct data_struct_s

@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdbool.h>
+#include <ctype.h>
 
 #include "hashmap.h"
 
@@ -447,12 +448,12 @@ int hashmap_length(map_t in){
 }
 
 int hashmap_key_strcmp(char *a, char *b){
+	while(isdigit(*a)) ++a;
+	while(isdigit(*b)) ++b;
+
 	while (*a && *b && *a == *b) { ++a; ++b; }
 
-	if(strlen(a) == strlen(b))
-		return (int) *a - *b;
-
-	return (int) strlen(a) - strlen(b);
+	return (int) *b - *a;
 }
 
 void swap(any_t xp, any_t yp){
