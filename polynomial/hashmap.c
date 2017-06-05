@@ -332,6 +332,33 @@ int hashmap_get(map_t in, char* key, any_t *arg){
 }
 
 /*
+ * Sort the hashmap elements by key using selection sort.
+ */
+
+int hashmap_sort(map_t in){
+	int i, j, min_idx;
+
+	/* Cast the hashmap */
+	hashmap_map* m = (hashmap_map*) in;
+
+	/* On empty hashmap, return immediately */
+	if (hashmap_length(m) <= 0)
+		return MAP_MISSING;
+
+	for(i = 0; i < m->table_size-1; i++){
+		min_idx = i;
+		for(j = i+1; j < m->table_size; j++)
+			if(m->data[j].in_use && m->data[min_idx].in_use && strcmp(m->data[j].key, m->data[min_idx].key) < 0) {
+				min_idx = j;
+			}
+
+		swap(&m->data[min_idx], &m->data[i]);
+	}
+
+  return MAP_OK;
+}
+
+/*
  * Iterate the function parameter over each element in the hashmap.  The
  * additional any_t argument is passed to the function as its first
  * argument and the hashmap element is the second.
@@ -348,7 +375,7 @@ int hashmap_iterate(map_t in, PFany f) {
 		return MAP_MISSING;
 
 	/* Linear probing */
-	for(i = 0; i< m->table_size; i++)
+	for(i = 0; i< m->table_size; i++){
 		if(m->data[i].in_use != 0) {
       char *key = m->data[i].key;
 			data_struct_t *data = m->data[i].data;
@@ -361,10 +388,11 @@ int hashmap_iterate(map_t in, PFany f) {
         is_first = false;
       }
 		}
+	}
 
-		printf("\n");
+	printf("\n");
 
-    return MAP_OK;
+  return MAP_OK;
 }
 
 /*
@@ -416,4 +444,10 @@ int hashmap_length(map_t in){
 	hashmap_map* m = (hashmap_map *) in;
 	if(m != NULL) return m->size;
 	else return 0;
+}
+
+void swap(any_t xp, any_t yp){
+		hashmap_element temp = *((hashmap_element *)xp);
+    *((hashmap_element *)xp) = *((hashmap_element *)yp);
+    *((hashmap_element *)yp) = temp;
 }

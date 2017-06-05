@@ -39,6 +39,11 @@ typedef any_t map_t;
 extern map_t hashmap_new();
 
 /*
+ * Sort the hashmap elements by key with selection sort. Return MAP_OK or MAP_MISSING.
+*/
+extern int hashmap_sort(map_t in);
+
+/*
  * Iteratively call f with argument (item, data) for
  * each element data in the hashmap. The function must
  * return a map status code. If it returns anything other
@@ -77,5 +82,10 @@ extern void hashmap_free(map_t in);
  * Get the current size of a hashmap
  */
 extern int hashmap_length(map_t in);
+
+/*
+ * Simple swap function to swap hashmap elements.
+ */
+extern void swap(any_t xp, any_t yp);
 
 #endif

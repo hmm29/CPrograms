@@ -22,6 +22,7 @@ int main(int argc, char **argv){
   my_map = hashmap_new();
 
   combine_terms(terms, num_terms, my_map);
+  hashmap_sort(my_map);
   hashmap_iterate(my_map, print_term);
 
   terms_free(terms, num_terms);
