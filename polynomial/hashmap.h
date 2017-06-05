@@ -74,12 +74,12 @@ extern int hashmap_remove(map_t in, char* key);
 extern int hashmap_get_one(map_t in, any_t *arg, int remove);
 
 /*
- * Free the hashmap
+ * Free the hashmap.
  */
 extern void hashmap_free(map_t in);
 
 /*
- * Get the current size of a hashmap
+ * Get the current size of a hashmap.
  */
 extern int hashmap_length(map_t in);
 

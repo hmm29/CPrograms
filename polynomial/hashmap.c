@@ -456,7 +456,7 @@ int hashmap_key_strcmp(char *a, char *b){
 }
 
 void swap(any_t xp, any_t yp){
-		hashmap_element temp = *((hashmap_element *)xp);
-    *((hashmap_element *)xp) = *((hashmap_element *)yp);
-    *((hashmap_element *)yp) = temp;
+	hashmap_element temp = *((hashmap_element *)xp);
+	*((hashmap_element *)xp) = *((hashmap_element *)yp);
+	*((hashmap_element *)yp) = temp;
 }
