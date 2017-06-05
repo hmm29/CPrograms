@@ -9,6 +9,7 @@
 #include "hashmap.h"
 
 #define INITIAL_SIZE (256)
+#define KEY_MAX_LENGTH (256)
 #define MAX_CHAIN_LENGTH (8)
 
 /* We need to keep keys and values */
@@ -17,6 +18,12 @@ typedef struct _hashmap_element{
 	int in_use;
 	any_t data;
 } hashmap_element;
+
+typedef struct data_struct_s
+{
+    char key_string[KEY_MAX_LENGTH];
+    int number;
+} data_struct_t;
 
 /* A hashmap has some maximum size and current size,
  * as well as the data to hold. */
@@ -323,8 +330,8 @@ int hashmap_get(map_t in, char* key, any_t *arg){
  * additional any_t argument is passed to the function as its first
  * argument and the hashmap element is the second.
  */
-int hashmap_iterate(map_t in, PFany f, any_t item) {
-	int i;
+int hashmap_iterate(map_t in, PFany f) {
+	int i, status;
   bool is_first = true;
 
 	/* Cast the hashmap */
@@ -338,8 +345,8 @@ int hashmap_iterate(map_t in, PFany f, any_t item) {
 	for(i = 0; i< m->table_size; i++)
 		if(m->data[i].in_use != 0) {
       char *key = m->data[i].key;
-			long data = (long) (m->data[i].data);
-			int status = f(key, data, is_first);
+			data_struct_t *data = m->data[i].data;
+			status = f(key, data, is_first);
 			if (status != MAP_OK) {
 				return status;
 			}
@@ -348,6 +355,8 @@ int hashmap_iterate(map_t in, PFany f, any_t item) {
         is_first = false;
       }
 		}
+
+		printf("\n");
 
     return MAP_OK;
 }

@@ -15,14 +15,14 @@ int main(int argc, char **argv){
     exit(EXIT_SUCCESS);
   }
 
-  status = parse_terms(argc, argv, terms);
+  status = parse_terms(num_terms, argv, terms);
   if(status == TERM_ERR){
     DIE("Usage: ./polynomial <coefficient><base><exponent> [...]\n");
   }
-
   my_map = hashmap_new();
+
   combine_terms(terms, num_terms, my_map);
-  hashmap_iterate(my_map, print_term, NULL);
+  hashmap_iterate(my_map, print_term);
 
   terms_free(terms, num_terms);
   hashmap_free(my_map);

@@ -3,7 +3,7 @@
 # Specify compiler
 CC=gcc
 
-# Specify flags and other macros
+# Specify compile flags
 CFLAGS=-std=c99 -g3 -Wall -pedantic
 
 all:	polynomial

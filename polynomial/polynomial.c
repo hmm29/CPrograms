@@ -8,27 +8,28 @@
 #include "hashmap.h"
 #include "polynomial.h"
 
-#define KEY_MAX_LENGTH (256)
-
-int parse_terms(int argc, char **argv, Term_ptr* terms){
+int parse_terms(int num_terms, char **argv, Term_ptr* terms){
   if(terms == NULL)
     return TERM_ERR;
 
-  int status;
   Term_ptr *remaining_terms = terms;
+  Term_ptr new_term_ptr;
 
-  for(int i = 1; i < argc; i++){
-    status = create_term(argv[i], *remaining_terms);
-    assert(status == TERM_OK);
+  for(int i = 1; i <= num_terms; i++){
+    new_term_ptr = create_term(argv[i]);
+    if(new_term_ptr == NULL) {
+      return TERM_ERR;
+    }
+    *remaining_terms = new_term_ptr;
     remaining_terms++;
   }
 
   return TERM_OK;
 }
 
-int create_term(const char *str, Term_ptr term){
-  if(str == NULL || term == NULL)
-    return TERM_ERR;
+Term_ptr create_term(const char *str){
+  if(str == NULL)
+    return NULL;
 
   int count = 0;
   int sign = 1;
@@ -46,7 +47,7 @@ int create_term(const char *str, Term_ptr term){
     }
 
     if(!isdigit(*tmp)) {
-      return TERM_ERR;
+      return NULL;
     }
 
     while(isdigit(*tmp)){
@@ -65,7 +66,7 @@ int create_term(const char *str, Term_ptr term){
   if(isalpha(*tmp)) {
     new_term_ptr->base = *(tmp++);
   } else {
-    return TERM_ERR;
+    return NULL;
   }
 
   if(*tmp == '-') {
@@ -74,41 +75,40 @@ int create_term(const char *str, Term_ptr term){
   }
 
   if(!isdigit(*tmp)) {
-    return TERM_ERR;
+    return NULL;
   }
 
   new_term_ptr->exponent = (long) ((long) atol(tmp)) * sign;
-  term = new_term_ptr;
 
-  return TERM_OK;
+  return new_term_ptr;
 }
 
-int combine_terms(Term_ptr *terms, int num_terms, map_t my_map){
+void combine_terms(Term_ptr *terms, int num_terms, map_t my_map){
   int status;
-  long value;
-  char key_string[KEY_MAX_LENGTH];
+  data_struct_t *value;
   Term_ptr curr_term_ptr;
 
   for(int i = 0; i < num_terms; i++){
     curr_term_ptr = terms[i];
-    snprintf(key_string, KEY_MAX_LENGTH, "%c^%ld", curr_term_ptr->base, curr_term_ptr->exponent);
-    status = hashmap_put(my_map, key_string, (long *) &value);
+    value = malloc(sizeof(data_struct_t));
+
+    snprintf(value->key_string, KEY_MAX_LENGTH, "%c^%ld", curr_term_ptr->base, curr_term_ptr->exponent);
+    value->number = curr_term_ptr->coefficient;
+    status = hashmap_put(my_map, value->key_string, value);
     assert(status == MAP_OK);
   }
-
-  return TERM_OK;
 }
 
-int print_term(const char *key, long value, bool is_first){
+int print_term(const char *key, any_t value, bool is_first){
   if(key == NULL){
     return MAP_MISSING;
   }
 
-  if(value >= 0 && !is_first){
+  if(((data_struct_t *)value)->number >= 0 && !is_first){
     printf("+");
   }
 
-  printf("%ld%s", value, key);
+  printf("%d%s", ((data_struct_t *)value)->number, key);
   return MAP_OK;
 }
 
