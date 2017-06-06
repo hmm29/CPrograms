@@ -33,18 +33,21 @@ Term_ptr create_term(const char *str){
 
   int count = 0;
   int sign = 1;
-  const char *tmp = str;
+  const char *tmp;
   Term_ptr new_term_ptr;
 
   new_term_ptr = (Term_ptr) malloc(sizeof(Term));
 
-  if(isalpha(*tmp)){
+  if(isalpha(*str)){
     new_term_ptr->coefficient = 1;
+    tmp = str;
   } else {
-    if(*tmp == '-') {
+    if(*str == '-') {
       sign = -1;
-      tmp++;
+      str++;
     }
+
+    tmp = str;
 
     if(!isdigit(*tmp)) {
       return NULL;
@@ -92,7 +95,12 @@ void combine_terms(Term_ptr *terms, int num_terms, map_t my_map){
     curr_term_ptr = terms[i];
     value = malloc(sizeof(data_struct_t));
 
-    snprintf(value->key_string, KEY_MAX_LENGTH, "%c^%ld", curr_term_ptr->base, curr_term_ptr->exponent);
+    if(curr_term_ptr->exponent < 0) {
+      snprintf(value->key_string, KEY_MAX_LENGTH, "%c^(%ld)", curr_term_ptr->base, curr_term_ptr->exponent);
+    } else {
+      snprintf(value->key_string, KEY_MAX_LENGTH, "%c^%ld", curr_term_ptr->base, curr_term_ptr->exponent);
+    }
+
     value->number = curr_term_ptr->coefficient;
     status = hashmap_put(my_map, value->key_string, value);
     assert(status == MAP_OK);
