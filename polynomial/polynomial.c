@@ -59,11 +59,16 @@ Term_ptr create_term(const char *str){
     strncpy(coeff_str, str, count);
     coeff_str[count] = '\0';
 
+    // printf("my coefficient string is %s\n", coeff_str);
     new_term_ptr->coefficient = (long) ((long) atol(coeff_str)) * sign;
+    // printf("my coefficient is %ld\n", new_term_ptr->coefficient);
   }
 
   // Reset the sign
   sign = 1;
+
+  new_term_ptr->base[base_idx++] = *(tmp++);
+  // printf("the char after my base is %c\n", *(tmp-1));
 
   while(strlen(tmp) > 0) {
     while(*tmp != 0 && !isdigit(*(tmp+1))) {
@@ -72,18 +77,19 @@ Term_ptr create_term(const char *str){
       tmp++;
     }
 
+    // printf("tmp is now %c after the line 72 while loop\n", *tmp);
+
     if(strlen(tmp) == 0) {
       new_term_ptr->num_variables = base_idx;
       break;
     }
-
-    new_term_ptr->base[base_idx++] = *(tmp++);
 
     if(isalpha(*tmp)) {
       return NULL;
     }
 
     if(*tmp == '-' && sign > 0) {
+      // printf("I encountered a negative sign\n");
       sign = -1;
       tmp++;
     }
@@ -100,7 +106,9 @@ Term_ptr create_term(const char *str){
     strncpy(exponent_str, tmp, count);
     exponent_str[count] = '\0';
 
+    // printf("my sign is %i\n", sign);
     new_term_ptr->exponent[exponent_idx++] = (long) ((long) atol(exponent_str)) * sign;
+    // printf("my exponent is %ld\n", new_term_ptr->exponent[exponent_idx-1]);
 
     sign = 1;
     tmp = tmp2;
@@ -131,7 +139,11 @@ void combine_terms(Term_ptr *terms, int num_terms, map_t my_map){
 
     strcpy(key, c);
     strcat(key, "^");
-    sprintf(exponent_str, "%ld", curr_term_ptr->exponent[0]);
+    if(curr_term_ptr->exponent[0] < 0) {
+      sprintf(exponent_str, "(%ld)", curr_term_ptr->exponent[0]);
+    } else {
+      sprintf(exponent_str, "%ld", curr_term_ptr->exponent[0]);
+    }
     strcat(key, exponent_str);
 
     // Copy over remaining bases and exponents
@@ -141,7 +153,11 @@ void combine_terms(Term_ptr *terms, int num_terms, map_t my_map){
 
       strcat(key, c);
       strcat(key, "^");
-      sprintf(exponent_str, "%ld", curr_term_ptr->exponent[idx]);
+      if(curr_term_ptr->exponent[idx] < 0) {
+        sprintf(exponent_str, "(%ld)", curr_term_ptr->exponent[idx]);
+      } else {
+        sprintf(exponent_str, "%ld", curr_term_ptr->exponent[idx]);
+      }
       strcat(key, exponent_str);
     }
 
