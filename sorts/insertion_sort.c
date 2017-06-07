@@ -26,17 +26,27 @@ int insertion_sort(int *arr, int num) {
 
 int main(){
 	int i, status;
-	int vals[7] = {1,2,7,3,2,3,4};
+	int arr[8] = {1,2,7,3,2,3,54,-2};
 
-	status = insertion_sort(vals, 7);
+	printf("Array arr before insertion sort:\n\n");
+	for(i = 0; i < 8; i++) {
+		printf("arr[%d] = %d\n", i, arr[i]);
+	}
+	printf("\n");
+
+	status = insertion_sort(arr, 8);
+
 	if(status != SORT_OK) {
-		fprintf(stderr, "Error: invalid inputs for insertion_sort.\n");
+		fprintf(stderr, "Error: must pass non-NULL array pointer and non-negative array length to function insertion_sort.\n");
 		exit(EXIT_FAILURE);
 	}
 
-	for(i = 0; i < 7; i++) {
-		printf("%d\t%d\n", i, vals[i]);
+	printf("Array arr after insertion sort:\n\n");
+
+	for(i = 0; i < 8; i++) {
+		printf("arr[%d] = %d\n", i, arr[i]);
 	}
+	printf("\n");
 
 	exit(EXIT_SUCCESS);
 }

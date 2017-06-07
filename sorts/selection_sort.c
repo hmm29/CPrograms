@@ -30,18 +30,27 @@ int selection_sort(int *arr, int num){
 
 int main(){
 	int i, status;
-	int vals[8] = {1,3,4,4,87,23,231,-1};
+	int arr[8] = {1,3,4,4,87,23,231,-1};
 
-	status = selection_sort(vals, 8);
+	printf("Array arr before selection sort:\n\n");
+	for(i = 0; i < 8; i++) {
+		printf("arr[%d] = %d\n", i, arr[i]);
+	}
+	printf("\n");
+
+	status = selection_sort(arr, 8);
 
 	if(status != SORT_OK) {
-		fprintf(stderr, "Error: invalid inputs for selection_sort.\n");
+		fprintf(stderr, "Error: must pass non-NULL array pointer and non-negative array length to function selection_sort.\n");
 		exit(EXIT_FAILURE);
 	}
 
-	for(i = 0; i < 8; i++){
-		printf("Index %d:\t%d\n", i, vals[i]);
+	printf("Array arr after selection sort:\n\n");
+
+	for(i = 0; i < 8; i++) {
+		printf("arr[%d] = %d\n", i, arr[i]);
 	}
+	printf("\n");
 
 	exit(EXIT_SUCCESS);
 }
