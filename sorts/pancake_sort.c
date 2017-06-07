@@ -58,13 +58,17 @@ int pancake_sort(int *arr, int length){
 int main(){
 	int i, res;
 	int vals[8] = {1,3,4,4,87,23,231,-1};
+
 	res = pancake_sort(vals, 8);
+	
 	if(res == SORT_ERR) {
 		fprintf(stderr, "Error: Array is empty.\n");
 		return 1;
 	}
+
 	for(i = 0; i < 8; i++){
 		printf("Index %d:\t%d\n", i, vals[i]);
 	}
+
 	return 0;
 }
