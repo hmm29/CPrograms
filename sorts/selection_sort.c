@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include "sort.h"
 
 void swap(int *a, int *b){
 	int tmp = *a;
@@ -6,8 +8,12 @@ void swap(int *a, int *b){
 	*b = tmp;
 }
 
-void selection_sort(int *arr, int num){
+int selection_sort(int *arr, int num){
 	int i, j, min_idx;
+
+	if(arr == NULL || num < 0) {
+		  return SORT_ERR;
+	}
 
 	for(i = 0; i < num-1; i++){
 		min_idx = i;
@@ -18,14 +24,24 @@ void selection_sort(int *arr, int num){
 		}
 		swap(&arr[i], &arr[min_idx]);
 	}
+
+	return SORT_OK;
 }
 
 int main(){
-	int i;
+	int i, status;
 	int vals[8] = {1,3,4,4,87,23,231,-1};
-	selection_sort(vals, 8);
+
+	status = selection_sort(vals, 8);
+
+	if(status == SORT_ERR) {
+		fprintf(stderr, "Error: Array is empty.\n");
+		exit(EXIT_FAILURE);
+	}
+
 	for(i = 0; i < 8; i++){
 		printf("Index %d:\t%d\n", i, vals[i]);
 	}
-	return 0;
+
+	exit(EXIT_SUCCESS);
 }

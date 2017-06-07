@@ -1,7 +1,6 @@
 #include <stdio.h>
-
-#define SORT_OK (0)
-#define SORT_ERR (-1)
+#include <stdlib.h>
+#include "sort.h"
 
 void swap(int *a, int *b){
 	int tmp = *a;
@@ -35,15 +34,15 @@ void flip(int *arr, int num_elts){
   }
 }
 
-int pancake_sort(int *arr, int length){
+int pancake_sort(int *arr, int num){
   int num_elts,
       idx_largest;
 
-	if(arr == NULL || length < 0) {
+	if(arr == NULL || num < 0) {
 		  return SORT_ERR;
 	}
 
-	num_elts = length;
+	num_elts = num;
 
   while(num_elts > 0) {
     idx_largest = get_index_of_largest(arr, num_elts);
@@ -56,19 +55,19 @@ int pancake_sort(int *arr, int length){
 }
 
 int main(){
-	int i, res;
+	int i, status;
 	int vals[8] = {1,3,4,4,87,23,231,-1};
 
-	res = pancake_sort(vals, 8);
-	
-	if(res == SORT_ERR) {
+	status = pancake_sort(vals, 8);
+
+	if(status == SORT_ERR) {
 		fprintf(stderr, "Error: Array is empty.\n");
-		return 1;
+		exit(EXIT_FAILURE);
 	}
 
 	for(i = 0; i < 8; i++){
 		printf("Index %d:\t%d\n", i, vals[i]);
 	}
 
-	return 0;
+	exit(EXIT_SUCCESS);
 }
