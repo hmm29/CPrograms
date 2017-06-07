@@ -29,8 +29,8 @@ int main(){
 	int vals[7] = {1,2,7,3,2,3,4};
 
 	status = insertion_sort(vals, 7);
-	if(status == SORT_ERR) {
-		fprintf(stderr, "Error: Array is empty.\n");
+	if(status != SORT_OK) {
+		fprintf(stderr, "Error: invalid inputs for insertion_sort.\n");
 		exit(EXIT_FAILURE);
 	}
 

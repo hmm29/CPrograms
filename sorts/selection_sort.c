@@ -34,8 +34,8 @@ int main(){
 
 	status = selection_sort(vals, 8);
 
-	if(status == SORT_ERR) {
-		fprintf(stderr, "Error: Array is empty.\n");
+	if(status != SORT_OK) {
+		fprintf(stderr, "Error: invalid inputs for selection_sort.\n");
 		exit(EXIT_FAILURE);
 	}
 
